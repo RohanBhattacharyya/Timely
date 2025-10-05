@@ -9,13 +9,22 @@
 <body>
   <h1>Timely</h1>
   <p>Welcome to timely.</p>
-  <div id="speech-to-text-stream"></div>
+
+  <!-- Below is audio recording capabilities for future automatic task creation -->
+  <!-- <div id="speech-to-text-stream"></div>
   <div id="recording-buttons-container">
     <button id="record-button">Start Recording</button>
     <button id="stop-record-button" disabled>Stop Recording</button>
   </div>
-  <audio id="playback" controls></audio>
+  <audio id="playback" controls></audio> -->
 
+
+  <dialog id="settings_popup">
+    <input type="text" id="api-key-input" placeholder="Enter API Key">
+    <button id="save-api-key-button">Save API Key</button>
+    <button id="close-settings-button" onclick="settings_popup.close()">Close</button>
+  </dialog>
+  <button onclick="settings_popup.showModal()">Settings</button>
   <script src="src/main.ts"></script>
 </body>
 </html>
