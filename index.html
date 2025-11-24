@@ -5,10 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timely</title>
   <link rel="stylesheet" href="src/styles.css">
+  <script src="src/main.ts"></script>
+
 </head>
 <body>
   <h1>Timely</h1>
   <p>Welcome to timely.</p>
+
+  <section id="matrix">
+    <section class="matrix-section" id="important-urgent">
+      <div class="task">
+        <h3>Do Math HW</h3>
+        <p>Due: 10/7/25</p>
+      </div>
+    </section>
+    <section class="matrix-section" id="important-noturgent">
+      
+    </section>
+    <section class="matrix-section" id="notimportant-urgent">
+      
+    </section>
+    <section class="matrix-section" id="notimportant-noturgent">
+      
+    </section>
+  </section>
+
+  <button id="add-task-button">Add Task</button>
 
   <!-- Below is audio recording capabilities for future automatic task creation -->
   <!-- <div id="speech-to-text-stream"></div>
@@ -25,6 +47,6 @@
     <button id="close-settings-button" onclick="settings_popup.close()">Close</button>
   </dialog>
   <button onclick="settings_popup.showModal()">Settings</button>
-  <script src="src/main.ts"></script>
+
 </body>
 </html>

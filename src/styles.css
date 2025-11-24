@@ -118,3 +118,24 @@ button {
 button:disabled {
   background-color: #c4c4c4;
 }
+
+#matrix {
+  display: flex;
+  flex-direction: row;
+  background-color: #2d79c7;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.matrix-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.task {
+  background-color: #1d1d1d;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+}
