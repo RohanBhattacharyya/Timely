@@ -12,3 +12,12 @@ Why is it blazing fast? It's made in Tauri v2:
 ## Platforms
 
 Theoretically, this software should work on all platforms it has been compiled for (goal: mac, linux, windows, android, ios), however, due to a current limitation in webkitgtk, Linux cannot be supported fully. I recommend using Windows for this program. 
+
+## Developer Build
+
+Dependencies are listed [here](https://v2.tauri.app/start/prerequisites/).
+
+Run:
+```deno install```
+then
+```deno task run tauri dev```
