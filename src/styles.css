@@ -1,10 +1,3 @@
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
-
-.logo.typescript:hover {
-  filter: drop-shadow(0 0 2em #2d79c7);
-}
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -110,8 +103,18 @@ button {
     color: #ffffff;
     background-color: #0f0f0f98;
   }
+
   button:active {
     background-color: #0f0f0f69;
+  }
+
+  dialog {
+    background-color: #2f2f2f;
+    color: #f6f6f6;
+    border-radius: 10px;
+    border-width: 5px;
+    border-color: #1d1d1d;
+    border-style: solid;
   }
 }
 
@@ -126,11 +129,13 @@ button:disabled {
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
+  gap: 20px;
 }
 
 .matrix-section {
   display: flex;
   flex-direction: column;
+  max-width: 28rem;
 }
 
 .task {
@@ -138,4 +143,8 @@ button:disabled {
   padding: 10px;
   margin: 5px;
   border-radius: 10px;
+}
+
+#amount-classifying {
+  display: none;
 }

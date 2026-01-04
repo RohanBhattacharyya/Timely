@@ -12,25 +12,54 @@
   <h1>Timely</h1>
   <p>Welcome to timely.</p>
 
+  <p id="amount-classifying">Currently classifying 0 tasks.</p>
+
   <section id="matrix">
-    <section class="matrix-section" id="important-urgent">
-      <!-- <div class="task">
-        <h3>Do Math HW</h3>
-        <p>Due: 10/7/25</p>
-      </div> -->
-    </section>
-    <section class="matrix-section" id="important-noturgent">
+    <!-- Test Section -->
+    <!-- <div>
+      <h2>test section</h2>
+      <section class="matrix-section">
+        <div class="task" data-timecreated="1767481340079">
+          <h3>feed dogs</h3>
+          <p>Work in progress...</p>
+          <button class="delete-task-button">Delete Task</button>
+        </div>
+      </section>
+    </div> -->
+    <!-- End Test -->
+
+
+
+    <div>
       
-    </section>
-    <section class="matrix-section" id="notimportant-urgent">
+      <h2>Important and Urgent</h2>
+      <section class="matrix-section" id="important-urgent">
+        
+      </section>
+    </div>
+
+    <div>
+      <h2>Important and Not Urgent</h2>
+      <section class="matrix-section" id="important-noturgent">
       
-    </section>
-    <section class="matrix-section" id="notimportant-noturgent">
+      </section>
+    </div>
+
+    <div>
+      <h2>Not Important and Urgent</h2>
+      <section class="matrix-section" id="notimportant-urgent">
       
-    </section>
+      </section>
+    </div>
+
+    <div>
+      <h2>Not Important and Not Urgent</h2>
+      <section class="matrix-section" id="notimportant-noturgent">
+      
+      </section>
+    </div>
   </section>
 
-  <button id="add-task-button">Add Task</button>
 
   <!-- Below is audio recording capabilities for future automatic task creation -->
   <!-- <div id="speech-to-text-stream"></div>
@@ -41,12 +70,52 @@
   <audio id="playback" controls></audio> -->
 
 
+  <!-- Dialogs -->
   <dialog id="settings_popup">
+    <h2>Settings</h2>
+    <label for="api-key-input">API Key</label>
     <input type="text" id="api-key-input" placeholder="Enter API Key">
     <button id="save-api-key-button">Save API Key</button>
+    <br><br>
     <button id="close-settings-button" onclick="settings_popup.close()">Close</button>
   </dialog>
   <button onclick="settings_popup.showModal()">Settings</button>
+
+  <dialog id="add_task">
+    <h2>Add Task</h2>
+
+    <label for="title-input">Title</label>
+    <input type="text" id="title-input" placeholder="Task Title">
+    <br><br>
+
+    <label for="description-input">Description</label>
+    <input type="text" id="description-input" placeholder="Task Description">
+    <br><br>
+
+    <label for="classification-input">Classification</label>
+    <select name="classification" id="classification-input">
+      <option value="auto">✨ Auto</option>
+      <option value="important-urgent">Important and Urgent</option>
+      <option value="important-noturgent">Important and Not Urgent</option>
+      <option value="notimportant-urgent">Not Important and Urgent</option>
+      <option value="notimportant-noturgent">Not Important and Not Urgent</option>
+    </select>
+    <br><br>
+
+    <label for="due-date-input">Due Date</label>
+    <input type="date" id="due-date-input">
+
+    <label for="due-time-input">Due Time</label>
+    <input type="time" id="due-time-input">
+
+    <br><br>
+
+    <button id="add-task-button">Add Task</button>
+    <button onclick="add_task.close()">Cancel</button>
+
+  </dialog>
+  <button id="add-task-popup-button" onclick="add_task.showModal()">Add Task</button>
+  <!-- End Dialogs -->
 
 </body>
 </html>
