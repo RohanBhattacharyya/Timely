@@ -19,7 +19,7 @@
 
   <section id="matrix">
     <!-- Test Section -->
-    <!-- <div>
+    <div class="matrix-container">
       <h2>test section</h2>
       <section class="matrix-section">
         <div class="task" data-timecreated="1767481340079">
@@ -28,12 +28,12 @@
           <button class="delete-task-button">Delete Task</button>
         </div>
       </section>
-    </div> -->
+    </div>
     <!-- End Test -->
 
 
 
-    <div>
+    <div class="matrix-container iu">
 
       <h2>Important and Urgent</h2>
       <section class="matrix-section" id="important-urgent">
@@ -41,36 +41,27 @@
       </section>
     </div>
 
-    <div>
+    <div class="matrix-container inu">
       <h2>Important and Not Urgent</h2>
       <section class="matrix-section" id="important-noturgent">
 
       </section>
     </div>
 
-    <div>
+    <div class="matrix-container niu">
       <h2>Not Important and Urgent</h2>
       <section class="matrix-section" id="notimportant-urgent">
 
       </section>
     </div>
 
-    <div>
+    <div class="matrix-container ninu">
       <h2>Not Important and Not Urgent</h2>
       <section class="matrix-section" id="notimportant-noturgent">
 
       </section>
     </div>
   </section>
-
-
-  <!-- Below is audio recording capabilities for future automatic task creation -->
-  <!-- <div id="speech-to-text-stream"></div>
-  <div id="recording-buttons-container">
-    <button id="record-button">Start Recording</button>
-    <button id="stop-record-button" disabled>Stop Recording</button>
-  </div>
-  <audio id="playback" controls></audio> -->
 
 
   <!-- Dialogs -->
@@ -82,7 +73,6 @@
     <br><br>
     <button id="close-settings-button" onclick="settings_popup.close()">Close</button>
   </dialog>
-  <button onclick="settings_popup.showModal()">Settings</button>
 
   <dialog id="add_task">
     <h2>Add Task</h2>
@@ -117,9 +107,15 @@
     <button onclick="add_task.close()">Cancel</button>
 
   </dialog>
-  <button id="add-task-popup-button" onclick="add_task.showModal()">Add Task</button>
+
   <!-- End Dialogs -->
 
+  <!-- Buttons -->
+  <div class="main-buttons">
+    <button id="add-task-popup-button" onclick="add_task.showModal()">Add Task</button>
+    <button onclick="settings_popup.showModal()">Settings</button>
+  </div>
+  <!-- End Buttons -->
 
 </body>
 </html>

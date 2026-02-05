@@ -88,10 +88,82 @@ button {
   margin-right: 5px;
 }
 
+.iu h2{
+  color: #ff4a4a;
+  font-weight: 900;
+}
+
+.inu h2{
+  color: #ffc34a;
+  font-weight: 900;
+}
+
+.niu h2{
+  color: #fff34a;
+  font-weight: 600;
+}
+
+.ninu h2{
+  color: #f6f6f6;
+  font-weight: 500;
+}
+
+
+button:disabled {
+  background-color: #c4c4c4;
+}
+
+#matrix {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.matrix-section {
+  display: flex;
+  flex-direction: column;
+  max-width: 28rem;
+}
+
+.task {
+  background-color: #1d1d1d;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+#amount-classifying {
+  display: none;
+}
+
+.matrix-container {
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.matrix-container h2 {
+  text-align: center;
+}
+
+.main-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 5rem;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
-    background-color: #2f2f2f;
+    background-color: #171717;
   }
 
   a:hover {
@@ -116,35 +188,8 @@ button {
     border-color: #1d1d1d;
     border-style: solid;
   }
-}
 
-button:disabled {
-  background-color: #c4c4c4;
-}
-
-#matrix {
-  display: flex;
-  flex-direction: row;
-  background-color: #2d79c7;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  gap: 20px;
-}
-
-.matrix-section {
-  display: flex;
-  flex-direction: column;
-  max-width: 28rem;
-}
-
-.task {
-  background-color: #1d1d1d;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 10px;
-}
-
-#amount-classifying {
-  display: none;
+  .matrix-container {
+    background-color: #070707;
+  }
 }

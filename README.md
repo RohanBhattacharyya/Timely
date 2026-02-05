@@ -21,3 +21,7 @@ Run:
 ```deno install```
 then
 ```deno task run tauri dev```
+
+On Linux Wayland, you may have to run it with these environment variables:
+
+```WEBKIT_DISABLE_DMABUF_RENDERER=1 WEBKIT_DISABLE_COMPOSITING_MODE=1 deno task tauri dev```
