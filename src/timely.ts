@@ -34,6 +34,7 @@ export type TimelyFile = {
   tasks: Task[],
   userAPIKey: string,
   schedule: Day[]
+  timestamp: number,
 };
 
 
@@ -65,7 +66,7 @@ export async function classifyTask(task: Task): Promise<EisenhowerLoc>{
    
 
     const completion: ChatResponse = await openrouter.chat.send({
-      model: "xiaomi/mimo-v2-flash:free",
+      model: "openrouter/free",
       messages: [
         {
           role: "system",
@@ -104,12 +105,16 @@ export async function classifyTask(task: Task): Promise<EisenhowerLoc>{
   return EisenhowerLoc.ImportantUrgent;
 }
 
-export async function writeTimelyFile() {
-  let timelyFile: TimelyFile = {tasks: getTasks(), userAPIKey: getUserAPIKey(), schedule: getSchedule()};
-  let file: FileHandle = getFile();
-  await file.seek(0, SeekMode.Start);
-  await file.write(new TextEncoder().encode(JSON.stringify(timelyFile)));
-  setFile(file);
+export function writeTimelyFile() {
+  let timelyFile: TimelyFile = {tasks: getTasks(), userAPIKey: getUserAPIKey(), schedule: getSchedule(), timestamp: (new Date()).getTime()};
+  // let file: FileHandle = getFile();
+  // await file.seek(0, SeekMode.Start);
+  // await file.write(new TextEncoder().encode(JSON.stringify(timelyFile)));
+  console.log("saving storage...");
+  localStorage.setItem("file", JSON.stringify(timelyFile));
+  console.log(timelyFile);
+  console.log("saved");
+  // setFile(file);
 }
 
 export async function addTaskFromModal(){
@@ -122,12 +127,15 @@ export async function addTaskFromModal(){
   let title: string = titleInput.value;
   let description: string = descriptionInput.value;
   let classification: string = classificationSelect.options[classificationSelect.selectedIndex].value;
-  let dueDate: Date | null = dueDateInput.valueAsDate;
+  let dueDateStringUTC = dueDateInput.value;
+  let dates: string[] = dueDateStringUTC.split("-");
+  let dueDate: Date = new Date(parseInt(dates[0]), parseInt(dates[1])-1, parseInt(dates[2]));
   if (dueDate == null) {
     console.log("Due date not set, using current date");
     dueDate = new Date();
   }
-  dueDate.setTime(dueDate.getTime()+dueTimeInput.valueAsNumber);
+  dueDate.setHours(parseInt(dueTimeInput.value.split(":")[0]));
+  dueDate.setMinutes(parseInt(dueTimeInput.value.split(":")[1]));
 
   let task: Task = {title: title, description: description, priority: 1, eisenhowerloc: EisenhowerLoc.ImportantUrgent, timecreated: Date.now(), duedate: dueDate};
 
@@ -184,7 +192,7 @@ export function createTaskDiv(task: Task, window: TimelyWindow): HTMLDivElement 
     taskDescription.innerText = task.description;
     div.appendChild(taskDescription);
     let taskDueDate: HTMLParagraphElement = document.createElement("p");
-    taskDueDate.innerText = `Due: ${(task.duedate as Date).toUTCString().slice(0, -4)}`;
+    taskDueDate.innerText = `Due: ${(task.duedate as Date).toLocaleString()}`;
     div.appendChild(taskDueDate);
 
     let deleteButton: HTMLButtonElement = document.createElement("button");
@@ -246,41 +254,53 @@ export function displayTasksInMatrix() {
 }
 
 export async function init(): Promise<void> {
-  // Do the File Stuff
-  let objectFileExists: boolean = await exists('timely.json', {
-    baseDir: BaseDirectory.AppData
-  });
+  // // Do the File Stuff
+  // let objectFileExists: boolean = await exists('timely.json', {
+  //   baseDir: BaseDirectory.AppData
+  // });
 
-  let file: FileHandle = await open('timely.json', {
-    read: true,
-    write: true,
-    create: true,
-    baseDir: BaseDirectory.AppData
-  });
-  setFile(file);
+  // let file: FileHandle = await open('timely.json', {
+  //   read: true,
+  //   write: true,
+  //   create: true,
+  //   baseDir: BaseDirectory.AppData
+  // });
+  // setFile(file);
 
-  if (!objectFileExists) {
+  // if (!objectFileExists) {
+  //   await writeTimelyFile();
+  // }
+
+  // const stat = await file.stat();
+  // const buf = new Uint8Array(stat.size);
+  // await file.read(buf);
+  // const textContents = new TextDecoder().decode(buf);
+  if (localStorage.getItem("file") == null){
+    console.log("file not found! rewriting...");
     await writeTimelyFile();
   }
-
-  const stat = await file.stat();
-  const buf = new Uint8Array(stat.size);
-  await file.read(buf);
-  const textContents = new TextDecoder().decode(buf);
-  let timelyFile: TimelyFile = JSON.parse(textContents);
-
-  setFile(file);
+  console.log("reading storage...");
+  let timelyFile: TimelyFile = JSON.parse(localStorage.getItem("file") as string);
+  console.log("read!");
+  console.log(timelyFile);
+  // setFile(file);
+  console.log("setting tasks...");
   await setTasks(timelyFile.tasks || []);
+  console.log("settings schedule...");
   await setSchedule(timelyFile.schedule || []);
+  console.log("setting api key...");
   await setUserAPIKey(timelyFile.userAPIKey || "");
 
+  console.log("fixing date strings...");
   // Convert date strings back to Date objects
   let tasks = getTasks();
   tasks.forEach((task, i) => {
     tasks[i].duedate = new Date(task.duedate);
   });
   await setTasks(tasks);
+  console.log("fixed date strings.");
 
+  console.log("fixing schedule dates...");
   let schedule = getSchedule();
   schedule.forEach((day, i) => {
     schedule[i].date = new Date(day.date);
@@ -289,4 +309,6 @@ export async function init(): Promise<void> {
     });
   });
   await setSchedule(schedule);
+  console.log("fixed schedule dates.");
+
 }

@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="page" content="main">
   <title>Timely</title>
   <link rel="stylesheet" href="src/styles.css">
   <script type="module" src="src/main.ts"></script>
 
 </head>
 <body>
-  <h1>Timely</h1>
+  <h1 id="timely-title">Timely</h1>
 
     <a href="schedule.html">Schedule</a>
 
@@ -103,9 +104,28 @@
 
     <br><br>
 
+    <label for="reminder-input">Reminder you have made. <button onclick="learn_reminders.showModal()">Teach me!</button></label>
+    <input type="text" id="reminder-input">
+    <br><br>
+
     <button id="add-task-button">Add Task</button>
     <button onclick="add_task.close()">Cancel</button>
 
+  </dialog>
+
+
+  <dialog id="learn_reminders">
+    <h2>What are Reminders Through Association?</h2>
+
+    <p>You create an association in the real world that will remind you to do someting.</p>
+    <p>Focus on an object that is very strange, or related, or will be at the location when you want to do the task. For example, a funny pen you have on your desk, which will be there when you need to work.</p>
+    <p>Focus on this item, and then associate it with a task you need to do. For example, tell yourself "When I see my funny pen, I will write that email to Bob."</p>
+    
+    <br>
+    <p>Studies have shown that reminders through association is one of the most effective methods of reminding yourself to do something.</p>
+    <p>Traditional electronic reminders often get flooded out or ignored.</p>
+
+    <button onclick="learn_reminders.close()">Got it!</button>
   </dialog>
 
   <!-- End Dialogs -->

@@ -160,6 +160,10 @@ button:disabled {
   margin: 5rem;
 }
 
+#timely-title {
+  font-size: 8vh;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;

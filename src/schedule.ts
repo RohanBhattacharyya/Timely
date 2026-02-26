@@ -21,7 +21,7 @@ export async function createSchedule(): Promise<void> {
     console.log("Generating schedule...");
 
     const completion: ChatResponse = await openrouter.chat.send({
-          model: "xiaomi/mimo-v2-flash:free",
+          model: "openrouter/free",
           messages: [
             {
               role: "system",
@@ -83,10 +83,12 @@ export async function displaySchedule(): Promise<void> {
 }
 
 window.addEventListener("DOMContentLoaded", async ()=>{
-    await init();
-    console.dir(getSchedule(), {depth: null});
-    document.getElementById("schedule-button")?.addEventListener("click", async ()=>{
-        await createSchedule();
-    });
-    displaySchedule();
+    if ((document.querySelector('meta[name="page"]') as HTMLMetaElement).content == "schedule"){
+        await init();
+        console.dir(getSchedule(), {depth: null});
+        document.getElementById("schedule-button")?.addEventListener("click", async ()=>{
+            await createSchedule();
+        });
+        displaySchedule();
+    }
 });
