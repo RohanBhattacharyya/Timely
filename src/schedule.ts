@@ -87,7 +87,9 @@ window.addEventListener("DOMContentLoaded", async ()=>{
         await init();
         console.dir(getSchedule(), {depth: null});
         document.getElementById("schedule-button")?.addEventListener("click", async ()=>{
+            (document.getElementById("progress") as HTMLParagraphElement).style.display = "block";
             await createSchedule();
+            (document.getElementById("progress") as HTMLParagraphElement).style.display = "none";
         });
         displaySchedule();
     }

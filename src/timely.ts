@@ -183,44 +183,100 @@ export function findTaskIndexFromDate(time: number): number {
 
 export function createTaskDiv(task: Task, window: TimelyWindow): HTMLDivElement {
   let div: HTMLDivElement = document.createElement("div");
-    div.className = "task";
-    div.dataset.timecreated = task.timecreated.toString();
-    let taskTitle: HTMLHeadingElement = document.createElement("h3");
-    taskTitle.innerText = task.title;
-    div.appendChild(taskTitle);
-    let taskDescription: HTMLParagraphElement = document.createElement("p");
-    taskDescription.innerText = task.description;
-    div.appendChild(taskDescription);
-    let taskDueDate: HTMLParagraphElement = document.createElement("p");
-    taskDueDate.innerText = `Due: ${(task.duedate as Date).toLocaleString()}`;
-    div.appendChild(taskDueDate);
+  
+  div.className = "task";
+  div.dataset.timecreated = task.timecreated.toString();
+  div.dataset.editing = "false";
 
-    let deleteButton: HTMLButtonElement = document.createElement("button");
-    deleteButton.innerText = "Delete Task";
-    deleteButton.className = "delete-task-button";
+  let taskTitle: HTMLHeadingElement = document.createElement("h3");
+  taskTitle.innerText = task.title;
+  div.appendChild(taskTitle);
+  let taskDescription: HTMLParagraphElement = document.createElement("p");
+  taskDescription.innerText = task.description;
+  div.appendChild(taskDescription);
+  let taskDueDate: HTMLParagraphElement = document.createElement("p");
+  taskDueDate.innerText = `Due: ${(task.duedate as Date).toLocaleString()}`;
+  div.appendChild(taskDueDate);
 
-    switch (window) {
-      case TimelyWindow.Main:
-        deleteButton.addEventListener("click", async ()=>{
-          let timecreated: number = parseInt(div.dataset.timecreated || "0");
-          await setTasks(getTasks().splice(findTaskIndexFromDate(timecreated), 1));
-          displayTasksInMatrix();
-        });
-        break;
-      case TimelyWindow.Schedule:
-        deleteButton.addEventListener("click", async ()=>{
-          let timecreated: number = parseInt(div.dataset.timecreated || "0");
-          await setTasks(getTasks().splice(findTaskIndexFromDate(timecreated), 1));
-          displaySchedule();
-        });
-        break;
-      default:
-        break;
-    }
-    
-    div.appendChild(deleteButton);
+  let deleteButton: HTMLButtonElement = document.createElement("button");
+  deleteButton.innerText = "Delete Task";
+  deleteButton.className = "delete-task-button";
 
-    return div;
+
+  switch (window) {
+    case TimelyWindow.Main:
+      deleteButton.addEventListener("click", async ()=>{
+        let timecreated: number = parseInt(div.dataset.timecreated || "0");
+        let tasks: Task[] = getTasks();
+        tasks.splice(findTaskIndexFromDate(timecreated), 1);
+        await setTasks(tasks);
+        displayTasksInMatrix();
+      });
+
+      let editButton: HTMLButtonElement = document.createElement("button");
+      editButton.innerText = "Edit Task";
+      editButton.className = "edit-task-button";
+      editButton.addEventListener("click", async () => {
+        let modal: HTMLDialogElement = document.getElementById("edit_task") as HTMLDialogElement;
+        modal.showModal();
+        
+        let titleInput: HTMLInputElement = document.getElementById("edit-title-input") as HTMLInputElement;
+        let descriptionInput: HTMLInputElement = document.getElementById("edit-description-input") as HTMLInputElement;
+        let classificationInput: HTMLSelectElement = document.getElementById("edit-classification-input") as HTMLSelectElement;
+        let dueDateInput: HTMLInputElement = document.getElementById("edit-due-date-input") as HTMLInputElement;
+        let dueTimeInput: HTMLInputElement = document.getElementById("edit-due-time-input") as HTMLInputElement;
+
+        titleInput.value = task.title;
+        descriptionInput.value = task.description;
+        switch (task.eisenhowerloc) {
+          case EisenhowerLoc.ImportantUrgent:
+            classificationInput.selectedIndex = 1;
+            break;
+          case EisenhowerLoc.ImportantNotUrgent:
+            classificationInput.selectedIndex = 2;
+            break;
+          case EisenhowerLoc.NotImportantUrgent:
+            classificationInput.selectedIndex = 3;
+            break;
+          case EisenhowerLoc.NotImportantNotUrgent:
+            classificationInput.selectedIndex = 4;
+            break;
+          default:
+            break;
+        }
+
+        let taskDate = task.duedate;
+        let year = taskDate.getFullYear();
+        let month = String(taskDate.getMonth() + 1).padStart(2, "0");
+        let day = String(taskDate.getDate()).padStart(2, "0");
+        dueDateInput.value = `${year}-${month}-${day}`;
+
+        let hour = String(taskDate.getHours()).padStart(2, "0");
+        let minutes = String(taskDate.getMinutes()).padStart(2, "0");
+        dueTimeInput.value = `${hour}:${minutes}`;
+        div.dataset.editing = "true";
+        
+      });
+
+      div.appendChild(editButton);
+
+      break;
+    case TimelyWindow.Schedule:
+      deleteButton.addEventListener("click", async ()=>{
+        let timecreated: number = parseInt(div.dataset.timecreated || "0");
+        let tasks: Task[] = getTasks();
+        tasks.splice(findTaskIndexFromDate(timecreated), 1);
+        await setTasks(tasks);
+        displaySchedule();
+      });
+      break;
+    default:
+      break;
+  }
+  
+  div.appendChild(deleteButton);
+
+  return div;
 }
 
 export function displayTasksInMatrix() {
@@ -284,16 +340,12 @@ export async function init(): Promise<void> {
   console.log("read!");
   console.log(timelyFile);
   // setFile(file);
-  console.log("setting tasks...");
-  await setTasks(timelyFile.tasks || []);
-  console.log("settings schedule...");
-  await setSchedule(timelyFile.schedule || []);
   console.log("setting api key...");
   await setUserAPIKey(timelyFile.userAPIKey || "");
 
   console.log("fixing date strings...");
   // Convert date strings back to Date objects
-  let tasks = getTasks();
+  let tasks = timelyFile.tasks;
   tasks.forEach((task, i) => {
     tasks[i].duedate = new Date(task.duedate);
   });
@@ -301,7 +353,7 @@ export async function init(): Promise<void> {
   console.log("fixed date strings.");
 
   console.log("fixing schedule dates...");
-  let schedule = getSchedule();
+  let schedule = timelyFile.schedule;
   schedule.forEach((day, i) => {
     schedule[i].date = new Date(day.date);
     day.tasks.forEach((task, taskIndex) => {

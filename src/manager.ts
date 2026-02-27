@@ -13,7 +13,6 @@ export function getFile(): FileHandle {
 }
 
 export function setFile(newFile: FileHandle): void {
-
   file = newFile;
 }
 
@@ -23,6 +22,7 @@ export function getTasks(): Task[] {
 
 export async function setTasks(newTasks: Task[]): Promise<void> {
   tasks = newTasks;
+  tasks.sort((a, b) => a.duedate.getTime() - b.duedate.getTime());
   await writeTimelyFile();
 }
 
@@ -57,5 +57,8 @@ export function getSchedule(): Day[] {
 
 export async function setSchedule(newSchedule: Day[]): Promise<void> {
   schedule = newSchedule;
+  schedule.forEach(day => {
+    day.tasks.sort((a, b) => a.duedate.getTime() - b.duedate.getTime());
+  });
   await writeTimelyFile();
 }

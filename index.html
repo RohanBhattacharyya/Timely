@@ -20,7 +20,7 @@
 
   <section id="matrix">
     <!-- Test Section -->
-    <div class="matrix-container">
+    <!-- <div class="matrix-container">
       <h2>test section</h2>
       <section class="matrix-section">
         <div class="task" data-timecreated="1767481340079">
@@ -29,7 +29,7 @@
           <button class="delete-task-button">Delete Task</button>
         </div>
       </section>
-    </div>
+    </div> -->
     <!-- End Test -->
 
 
@@ -102,6 +102,18 @@
     <label for="due-time-input">Due Time</label>
     <input type="time" id="due-time-input">
 
+    <script>
+      let current = new Date();
+      let year = current.getFullYear();
+      let month = String(current.getMonth() + 1).padStart(2, "0");
+      let day = String(current.getDate()).padStart(2, "0");
+      document.getElementById("due-date-input").value = `${year}-${month}-${day}`;
+
+      let hour = String(current.getHours()).padStart(2, "0");
+      let minutes = String(current.getMinutes()).padStart(2, "0");
+      document.getElementById("due-time-input").value = `${hour}:${minutes}`;
+    </script>
+
     <br><br>
 
     <label for="reminder-input">Reminder you have made. <button onclick="learn_reminders.showModal()">Teach me!</button></label>
@@ -110,6 +122,45 @@
 
     <button id="add-task-button">Add Task</button>
     <button onclick="add_task.close()">Cancel</button>
+
+  </dialog>
+
+  <dialog id="edit_task">
+    <h2>Edit Task</h2>
+
+    <label for="edit-title-input">Title</label>
+    <input type="text" id="edit-title-input" placeholder="Task Title">
+    <br><br>
+
+    <label for="edit-description-input">Description</label>
+    <input type="text" id="edit-description-input" placeholder="Task Description">
+    <br><br>
+
+    <label for="edit-classification-input">Classification</label>
+    <select name="classification" id="edit-classification-input">
+      <!-- Don't edit this order!!! -->
+      <option value="auto">✨ Auto</option>
+      <option value="important-urgent">Important and Urgent</option>
+      <option value="important-noturgent">Important and Not Urgent</option>
+      <option value="notimportant-urgent">Not Important and Urgent</option>
+      <option value="notimportant-noturgent">Not Important and Not Urgent</option>
+    </select>
+    <br><br>
+
+    <label for="edit-due-date-input">Due Date</label>
+    <input type="date" id="edit-due-date-input">
+
+    <label for="edit-due-time-input">Due Time</label>
+    <input type="time" id="edit-due-time-input">
+
+    <br><br>
+
+    <label for="edit-reminder-input">Reminder you have made. <button onclick="learn_reminders.showModal()">Teach me!</button></label>
+    <input type="text" id="edit-reminder-input">
+    <br><br>
+
+    <button id="edit-task-modal-button">Edit Task</button>
+    <button onclick="edit_task.close()">Cancel</button>
 
   </dialog>
 
