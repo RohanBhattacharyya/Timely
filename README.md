@@ -20,7 +20,7 @@ Dependencies are listed [here](https://v2.tauri.app/start/prerequisites/).
 Run:
 ```deno install```
 then
-```deno task run tauri dev```
+```deno task tauri dev```
 
 On Linux Wayland, you may have to run it with these environment variables:
 
