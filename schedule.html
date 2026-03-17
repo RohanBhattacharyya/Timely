@@ -11,7 +11,12 @@
 </head>
 <body>
     <h1>Schedule</h1>
-    <p id="progress" style="display: none;">Scheduling tasks, do not close...</p>
+    <div id="progress-overlay" class="loading-overlay" aria-hidden="true">
+        <div class="loading-content" role="status" aria-live="polite">
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <p id="progress">Scheduling tasks, do not close...</p>
+        </div>
+    </div>
     <br>
 
     <div class="main-buttons">

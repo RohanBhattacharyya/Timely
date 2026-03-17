@@ -87,9 +87,12 @@ window.addEventListener("DOMContentLoaded", async ()=>{
         await init();
         console.dir(getSchedule(), {depth: null});
         document.getElementById("schedule-button")?.addEventListener("click", async ()=>{
-            (document.getElementById("progress") as HTMLParagraphElement).style.display = "block";
+            const overlay = document.getElementById("progress-overlay") as HTMLDivElement;
+            overlay.classList.add("visible");
+            overlay.setAttribute("aria-hidden", "false");
             await createSchedule();
-            (document.getElementById("progress") as HTMLParagraphElement).style.display = "none";
+            overlay.classList.remove("visible");
+            overlay.setAttribute("aria-hidden", "true");
         });
         displaySchedule();
     }

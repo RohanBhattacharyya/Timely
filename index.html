@@ -15,7 +15,12 @@
 
   <p>Welcome to timely.</p>
 
-  <p id="amount-classifying">Currently classifying 0 tasks.</p>
+  <div id="classifying-overlay" class="loading-overlay loading-overlay-nonblocking" aria-hidden="true">
+    <div class="loading-content" role="status" aria-live="polite">
+      <div class="loading-spinner" aria-hidden="true"></div>
+      <p id="amount-classifying">Classifying 0 task(s)...</p>
+    </div>
+  </div>
 
   <section id="matrix">
     <!-- Test Section -->
@@ -66,6 +71,8 @@
       </section>
     </div>
   </section>
+
+  <br><br><br><br><br><br>
 
 
   <!-- Dialogs -->

@@ -40,12 +40,15 @@ export type TimelyFile = {
 
 
 export function updateClassifyingDisplay() {
-  let displayElement: HTMLDivElement = document.getElementById("amount-classifying") as HTMLDivElement;
+  let overlayElement: HTMLDivElement = document.getElementById("classifying-overlay") as HTMLDivElement;
+  let displayElement: HTMLParagraphElement = document.getElementById("amount-classifying") as HTMLParagraphElement;
   if (getCurrentlyClassifyingCount() > 0) {
-    displayElement.style.display = "block";
+    overlayElement.classList.add("visible");
+    overlayElement.setAttribute("aria-hidden", "false");
     displayElement.innerText = `Classifying ${getCurrentlyClassifyingCount()} task(s)...`;
   } else {
-    displayElement.style.display = "none";
+    overlayElement.classList.remove("visible");
+    overlayElement.setAttribute("aria-hidden", "true");
   }
 }
 
@@ -65,31 +68,33 @@ export async function classifyTask(task: Task): Promise<EisenhowerLoc>{
     updateClassifyingDisplay();
    
 
-    const completion: ChatResponse = await openrouter.chat.send({
-      model: "openrouter/free",
-      messages: [
-        {
-          role: "system",
-          content: "You are an Eisenhower Matrix classifier. You will classify a given task into one of four categories: Important Urgent, Important Not Urgent, Not Important Urgent, Not Important Not Urgent. Respond only with the category name in a computer readable non-markdown format."
-        },
-        {
-          role: "user",
-          content: `Classify the following task: ${task.title}. Here is a more detailed description: "${task.description}". It is due on ${task.duedate.toUTCString()}. The current date is ${new Date().toUTCString()}.`
+    let classification: string = "";
+    try {
+      const completion: ChatResponse = await openrouter.chat.send({
+        model: "openrouter/free",
+        messages: [
+          {
+            role: "system",
+            content: "You are an Eisenhower Matrix classifier. You will classify a given task into one of four categories: Important Urgent, Important Not Urgent, Not Important Urgent, Not Important Not Urgent. Respond only with the category name in a computer readable non-markdown format."
+          },
+          {
+            role: "user",
+            content: `Classify the following task: ${task.title}. Here is a more detailed description: "${task.description}". It is due on ${task.duedate.toUTCString()}. The current date is ${new Date().toUTCString()}.`
+          }
+        ],
+        stream: false,
+        reasoning: {
+          effort: "high",
         }
-      ],
-      stream: false,
-      reasoning: {
-        effort: "high",
-      }
-    });
+      });
 
-    let classification: string = completion.choices[0].message.content?.toString().trim().toLowerCase() || "";
-    console.log(`Reasoning: ${completion.choices[0].message.reasoning}`);
-    // let classification: string = await result.getText();
-    // classification = classification.toLowerCase();
-    console.log(`Classification result: ${classification}`);
-    decrementCurrentlyClassifyingCount();
-    updateClassifyingDisplay();
+      classification = completion.choices[0].message.content?.toString().trim().toLowerCase() || "";
+      console.log(`Reasoning: ${completion.choices[0].message.reasoning}`);
+      console.log(`Classification result: ${classification}`);
+    } finally {
+      decrementCurrentlyClassifyingCount();
+      updateClassifyingDisplay();
+    }
 
     if (classification.includes("not important") && classification.includes("not urgent")) {
       return EisenhowerLoc.NotImportantNotUrgent;
@@ -137,6 +142,11 @@ export async function addTaskFromModal(){
   dueDate.setHours(parseInt(dueTimeInput.value.split(":")[0]));
   dueDate.setMinutes(parseInt(dueTimeInput.value.split(":")[1]));
 
+  // Reset immediately so late async classification completion cannot clear newer input.
+  titleInput.value = "";
+  descriptionInput.value = "";
+  classificationSelect.selectedIndex = 0;
+
   let task: Task = {title: title, description: description, priority: 1, eisenhowerloc: EisenhowerLoc.ImportantUrgent, timecreated: Date.now(), duedate: dueDate};
 
   switch (classification) {
@@ -166,10 +176,6 @@ export async function addTaskFromModal(){
   tasks.push(task);
   await setTasks(tasks);
   displayTasksInMatrix();
-
-  titleInput.value = "";
-  descriptionInput.value = "";
-  classificationSelect.selectedIndex = 0;
 }
 
 export function findTaskIndexFromDate(time: number): number {
@@ -206,6 +212,9 @@ export function createTaskDiv(task: Task, window: TimelyWindow): HTMLDivElement 
   switch (window) {
     case TimelyWindow.Main:
       deleteButton.addEventListener("click", async ()=>{
+        if (!confirm(`Delete task \"${task.title}\"?`)) {
+          return;
+        }
         let timecreated: number = parseInt(div.dataset.timecreated || "0");
         let tasks: Task[] = getTasks();
         tasks.splice(findTaskIndexFromDate(timecreated), 1);
@@ -263,6 +272,9 @@ export function createTaskDiv(task: Task, window: TimelyWindow): HTMLDivElement 
       break;
     case TimelyWindow.Schedule:
       deleteButton.addEventListener("click", async ()=>{
+        if (!confirm(`Delete task \"${task.title}\"?`)) {
+          return;
+        }
         let timecreated: number = parseInt(div.dataset.timecreated || "0");
         let tasks: Task[] = getTasks();
         tasks.splice(findTaskIndexFromDate(timecreated), 1);
