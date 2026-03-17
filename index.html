@@ -7,12 +7,11 @@
   <title>Timely</title>
   <link rel="stylesheet" href="src/styles.css">
   <script type="module" src="src/main.ts"></script>
+  <script src="https://kit.fontawesome.com/c2296d1cad.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
-  <h1 id="timely-title">Timely</h1>
-
-    <a href="schedule.html">Schedule</a>
+  <h1>Timely</h1>
 
   <p>Welcome to timely.</p>
 
@@ -37,6 +36,7 @@
     <div class="matrix-container iu">
 
       <h2>Important and Urgent</h2>
+      <hr>
       <section class="matrix-section" id="important-urgent">
 
       </section>
@@ -44,6 +44,7 @@
 
     <div class="matrix-container inu">
       <h2>Important and Not Urgent</h2>
+      <hr>
       <section class="matrix-section" id="important-noturgent">
 
       </section>
@@ -51,6 +52,7 @@
 
     <div class="matrix-container niu">
       <h2>Not Important and Urgent</h2>
+      <hr>
       <section class="matrix-section" id="notimportant-urgent">
 
       </section>
@@ -58,6 +60,7 @@
 
     <div class="matrix-container ninu">
       <h2>Not Important and Not Urgent</h2>
+      <hr>
       <section class="matrix-section" id="notimportant-noturgent">
 
       </section>
@@ -183,10 +186,35 @@
 
   <!-- Buttons -->
   <div class="main-buttons">
-    <button id="add-task-popup-button" onclick="add_task.showModal()">Add Task</button>
-    <button onclick="settings_popup.showModal()">Settings</button>
+    <button id="add-task-popup-button" onclick="add_task.showModal()" title="Add Task">
+      <span>
+        <i class="fas fa-plus"></i>
+      </span>
+    </button>
+    <button onclick="settings_popup.showModal()" title="Settings">
+      <span>
+        <i class="fas fa-cog"></i>
+      </span>
+    </button>
   </div>
   <!-- End Buttons -->
+
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" title="Home">
+      <span style="color: white;border-bottom: 1px solid white;">
+        <i class="fas fa-home"></i>
+      </span>
+    </a>
+
+    <a href="schedule.html" title="Schedule">
+      <span>
+        <i class="fas fa-calendar-alt"></i>
+      </span>
+    </a>
+  </nav>
+  <!-- End Navigation -->
 
 </body>
 </html>

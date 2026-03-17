@@ -6,18 +6,41 @@
     <link rel="stylesheet" href="src/styles.css">
     <meta name="page" content="schedule">
     <title>Schedule</title>
+
+    <script src="https://kit.fontawesome.com/c2296d1cad.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <h1>Schedule</h1>
-    <a href="index.html">Home</a>
-    <h2>Schedule</h2>
     <p id="progress" style="display: none;">Scheduling tasks, do not close...</p>
     <br>
-    <button id="schedule-button">Schedule Tasks</button>
+
+    <div class="main-buttons">
+        <button id="schedule-button" title="Schedule Tasks">
+            <span>
+                <i class="fas fa-bolt"></i>
+            </span>
+        </button>
+    </div>
 
     <section id="schedule-display">
         
     </section>
     <script type="module" src="src/schedule.ts"></script>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html">
+        <span>
+            <i class="fas fa-home"></i>
+        </span>
+        </a>
+
+        <a href="schedule.html">
+        <span style="color: white;border-bottom: 1px solid white;">
+            <i class="fas fa-calendar-alt"></i>
+        </span>
+        </a>
+    </nav>
+    <!-- End Navigation -->
 </body>
 </html>

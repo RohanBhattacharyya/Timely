@@ -116,13 +116,19 @@ button:disabled {
 #matrix {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+
+  overflow: auto;
+  white-space: nowrap;
+  height: 70vh;
+  /* fill available height */
+  /* flex-wrap: wrap; */
+
+
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
   gap: 20px;
   justify-content: center;
-  align-items: center;
 }
 
 .matrix-section {
@@ -152,16 +158,65 @@ button:disabled {
 }
 
 .main-buttons {
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin: 5rem;
+  margin: 5rem; */
+
+  position: fixed;
+  bottom: 10vh;
+
+  left: 30vw;
+  width: 40vw;
+
+  height: fit-content;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+  align-content: center;
+  text-align: center;
 }
 
 #timely-title {
   font-size: 8vh;
+}
+
+nav {
+  position: fixed;
+  bottom: 2vh;
+
+  left: 30vw;
+  width: 40vw;
+
+  height: fit-content;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+  align-content: center;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+}
+
+nav a {
+  font-size: 1.5em;
+  font-weight: 900;
+}
+
+.main-buttons button {
+  line-height: 1;
+
+  border-radius: 100px;
+  height: 3rem;
+  width: 3rem;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (prefers-color-scheme: dark) {
