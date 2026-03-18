@@ -1,5 +1,5 @@
 import { addTaskFromModal, classifyTask, displayTasksInMatrix, EisenhowerLoc, findTaskIndexFromDate, init, Task, writeTimelyFile } from "./timely";
-import { getTasks, getUserAPIKey, setTasks, setUserAPIKey } from "./manager";
+import { getTasks, getUserAPIKey, setUserAPIKey } from "./manager";
 
 
 window.addEventListener("DOMContentLoaded", async ()=>{
