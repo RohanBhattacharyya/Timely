@@ -113,22 +113,25 @@ button:disabled {
   background-color: #c4c4c4;
 }
 
+.matrix-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
 #matrix {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-
-  overflow: auto;
-  white-space: nowrap;
-  /* fill available height */
-  /* flex-wrap: wrap; */
-
-
-  margin: 10px;
-  padding: 10px;
-  border-radius: 10px;
   gap: 20px;
   justify-content: center;
+  min-width: 100%;
+  width: max-content;
+  box-sizing: border-box;
 }
 
 .matrix-section {
@@ -145,6 +148,7 @@ button:disabled {
 }
 
 .matrix-container {
+  flex: 0 0 auto;
   padding: 1rem;
   border-radius: 10px;
 }
