@@ -11,7 +11,9 @@ Why is it blazing fast? It's made in Tauri v2:
 
 ## Platforms
 
-Theoretically, this software should work on all platforms it has been compiled for (goal: mac, linux, windows, android, ios), however, due to a current limitation in webkitgtk, Linux cannot be supported fully. I recommend using Windows for this program. 
+This software should work on all platforms it has been compiled for (goal: mac, linux, windows, android, ios). Due to a current limitation in webkitgtk, future advanced features cannot be supported in Linux, however, as of the moment, it is fully supported. I recommend using Windows for this program.
+
+The program has been tested on **Linux**, and **Android**.
 
 ## Developer Build
 
