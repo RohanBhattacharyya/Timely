@@ -1,5 +1,4 @@
-import { BaseDirectory, exists, FileHandle, SeekMode, open } from "@tauri-apps/plugin-fs";
-import { decrementCurrentlyClassifyingCount, getCurrentlyClassifyingCount, getFile, getSchedule, getTasks, getUserAPIKey, incrementCurrentlyClassifyingCount, setFile, setSchedule, setTasks, setUserAPIKey } from "./manager";
+import { decrementCurrentlyClassifyingCount, getCurrentlyClassifyingCount, getSchedule, getTasks, getUserAPIKey, incrementCurrentlyClassifyingCount, setSchedule, setTasks, setUserAPIKey } from "./manager";
 import { OpenRouter } from "@openrouter/sdk";
 import { ChatResponse } from "@openrouter/sdk/models";
 import { displaySchedule } from "./schedule";
