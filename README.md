@@ -25,3 +25,17 @@ then
 On Linux Wayland, you may have to run it with these environment variables:
 
 ```WEBKIT_DISABLE_DMABUF_RENDERER=1 WEBKIT_DISABLE_COMPOSITING_MODE=1 deno task tauri dev```
+
+## Android Release Signing
+
+Create `src-tauri/gen/android/keystore.properties` with:
+
+```properties
+password=<keystore password>
+keyAlias=<key alias, for example upload>
+storeFile=<absolute path to your .jks file>
+```
+
+Once that file exists, running `deno task tauri android build --apk` will automatically sign the release APK. Keep both the keystore and `keystore.properties` out of source control.
+
+If `keystore.properties` is missing, local Android builds fall back to the default debug keystore at `~/.android/debug.keystore` when it exists, which produces an installable signed APK for testing but is not appropriate for Play Store distribution.

@@ -1,3 +1,4 @@
+import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
@@ -13,6 +14,21 @@ val tauriProperties = Properties().apply {
     }
 }
 
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    FileInputStream(keystorePropertiesFile).use { keystoreProperties.load(it) }
+}
+val hasCustomReleaseSigning = listOf("keyAlias", "password", "storeFile").all {
+    !keystoreProperties.getProperty(it).isNullOrBlank()
+}
+val debugKeystoreFile = file("${System.getProperty("user.home")}/.android/debug.keystore")
+val hasDebugFallbackSigning = !hasCustomReleaseSigning && debugKeystoreFile.exists()
+
+if (keystorePropertiesFile.exists() && !hasCustomReleaseSigning) {
+    error("Android signing requires keyAlias, password, and storeFile in keystore.properties")
+}
+
 android {
     compileSdk = 36
     namespace = "com.rohan.timely"
@@ -23,6 +39,23 @@ android {
         targetSdk = 36
         versionCode = tauriProperties.getProperty("tauri.android.versionCode", "1").toInt()
         versionName = tauriProperties.getProperty("tauri.android.versionName", "1.0")
+    }
+    signingConfigs {
+        if (hasCustomReleaseSigning) {
+            create("release") {
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("password")
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("password")
+            }
+        } else if (hasDebugFallbackSigning) {
+            create("release") {
+                keyAlias = "androiddebugkey"
+                keyPassword = "android"
+                storeFile = debugKeystoreFile
+                storePassword = "android"
+            }
+        }
     }
     buildTypes {
         getByName("debug") {
@@ -43,6 +76,9 @@ android {
                     .plus(getDefaultProguardFile("proguard-android-optimize.txt"))
                     .toList().toTypedArray()
             )
+            if (hasCustomReleaseSigning || hasDebugFallbackSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
     kotlinOptions {
