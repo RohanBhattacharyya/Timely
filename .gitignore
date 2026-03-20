@@ -27,3 +27,5 @@ src-tauri/gen/android/keystore.properties
 *.sw?
 
 dist-builds/
+# Local tool cache / binaries
+.bin/
